@@ -4,10 +4,11 @@
 
 This project is used to automatically take information about downloads of the [intellij-clock](https://github.com/xamgore/intellij-clock) plugin (with its rivals) and send it to my personal Telegram's chat room.
 
+
 ```yaml
-Clock:         ⇊2398  ✩3.0  ꆜ4
-Time:          ⇊86    ✩1.0  ꆜ1
-Clock Widget:  ⇊80    ✩5.0  ꆜ2
+Clock:         ⇊2432      ✩3.0  ꆜ4
+Clock Widget:  ⇊236   +4  ✩5.0  ꆜ2
+Time:          ⇊86        ✩1.0  ꆜ1
 ```
 
 

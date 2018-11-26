@@ -28,11 +28,14 @@ class Plugin:
         return Plugin(get(url % plugin_id).json())
 
 
-    def __stringify(self, pad_title, pad_count):
+    def __stringify(self, pad_title, pad_count, stored_plugin: 'Plugin'):
+        loads_diff = self.downloadsCount - stored_plugin.downloadsCount
+        loads_diff = (' +%d' % loads_diff if loads_diff else '').rjust(4)
+
         title = '{0: <{pad}}' \
             .format(self.name + ':', pad=pad_title)
-        loads = '{load_icon}{count: <{pad}}' \
-            .format(count=self.downloadsCount, load_icon='\u21ca', pad=pad_count)
+        loads = '{load_icon}{count: <{pad}}{loads_diff}' \
+            .format(count=self.downloadsCount, load_icon='\u21ca', pad=pad_count, loads_diff=loads_diff)
         rates = '{star_icon}{rating}' \
             .format(rating=self.totalRating, star_icon='\u2729')
         votes = '{human_icon}{votes}' \
@@ -42,7 +45,13 @@ class Plugin:
 
 
     @staticmethod
-    def stringify(plugins):
-        pad_title = 1 + max(len(pl.name) for pl in plugins)
-        pad_count = max(len(str(pl.downloadsCount)) for pl in plugins)
-        return '\n'.join(pl.__stringify(pad_title, pad_count) for pl in plugins)
+    def stringify(plugins, stored_plugins):
+        pad_title = 1 + max(len(pl.name) for pl in plugins.values())
+        pad_count = max(len(str(pl.downloadsCount)) for pl in plugins.values())
+        to_string = lambda pair: pair[1].__stringify(pad_title, pad_count, stored_plugins[pair[0]])
+        return '\n'.join(map(to_string, plugins.items()))
+
+
+    @property
+    def data(self):
+        return self.__dict__
